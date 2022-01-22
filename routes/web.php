@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimelineController;
+use App\Http\Controllers\StatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,6 @@ require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function ()
 {
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
-
     Route::get('timeline', TimelineController::class)->name('timeline');
+    Route::post('status', [StatusController::class, 'store'])->name('statuses.store');
 });

@@ -3,7 +3,8 @@
         <div class="grid grid-cols-12 gap-6">
             <div class="col-span-7">
                 <x-card>
-                    <form method="post">
+                    <form method="post" action="{{route('statuses.store')}}">
+                        @csrf
                         <div class="flex item-center">
                             <div class="flex-shrink-0 mr-3">
                                 <img src="http://i.pravatar.cc/150" alt="{{Auth::user()->name}}" class="w-10 h-10 rounded-full">

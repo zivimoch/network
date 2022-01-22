@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -45,6 +46,14 @@ class User extends Authenticatable
     public function statuses()
     {
         return $this->hasMany(Status::class);
+    }
+
+    public function makeStatus($content)
+    {
+        $this->statuses()->create([
+            'content' => $content,
+            'identifier' => Str::slug(Str::random(32).$this->id)
+        ]);
     }
 
     public function follows()
