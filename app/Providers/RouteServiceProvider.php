@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,7 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * The controller namespace for the application.
-     *
+     * 
      * When present, controller route declarations will automatically be prefixed with this namespace.
      *
      * @var string|null
@@ -35,6 +36,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::bind('user', function ($user){
+           return User::where('id', $user)->orWhere('username', $user)->firstOrFail();
+        });
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
@@ -51,7 +56,7 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Configure the rate limiters for the application.
-     *
+     * 
      * @return void
      */
     protected function configureRateLimiting()

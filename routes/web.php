@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\ProfileInfromationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,6 @@ Route::middleware('auth')->group(function ()
 {
     Route::get('timeline', TimelineController::class)->name('timeline');
     Route::post('status', [StatusController::class, 'store'])->name('statuses.store');
+
+    Route::get('profile/{user}', ProfileInfromationController::class)->name('profile')->withoutMiddleware('auth');
 });
