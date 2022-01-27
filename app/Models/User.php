@@ -37,7 +37,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be cast.
-     *
+     * 
      * @var array<string, string>
      */
     protected $casts = [
@@ -53,7 +53,7 @@ class User extends Authenticatable
     {
         $this->statuses()->create([
             'content' => $content,
-            'identifier' => Str::slug(Str::random(32).$this->id)
+            'identifier' => Str::slug(Str::random(32) . $this->id)
         ]);
     }
 
@@ -67,17 +67,27 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'follows', 'following_user_id', 'user_id');
     }
 
+    public function hasFollow(User $user)
+    {
+        return $this->follows()->where('following_user_id', $user->id)->exists();
+    }
+
     public function follow(User $user)
     {
         return $this->follows()->save($user);
+    }
+
+    public function unfollow(User $user)
+    {
+        return $this->follows()->detach($user);
     }
 
     public function timeline()
     {
         $following = $this->follows->pluck('id');
         return Status::whereIn('user_id', $following)
-                        ->orWhere('user_id', $this->id)
-                        ->latest()
-                        ->get();
+            ->orWhere('user_id', $this->id)
+            ->latest()
+            ->get();
     }
 }

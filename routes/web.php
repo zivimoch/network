@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FollowingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\StatusController;
@@ -17,15 +18,16 @@ use App\Http\Controllers\ProfileInfromationController;
 */
 
 Route::view('/', 'welcome');
+Route::post('',);
+
+require __DIR__ . '/auth.php';
 
 
-require __DIR__.'/auth.php';
-
-
-Route::middleware('auth')->group(function ()
-{
+Route::middleware('auth')->group(function () {
     Route::get('timeline', TimelineController::class)->name('timeline');
     Route::post('status', [StatusController::class, 'store'])->name('statuses.store');
 
     Route::get('profile/{user}', ProfileInfromationController::class)->name('profile')->withoutMiddleware('auth');
+
+    Route::post('profile/{user}', [FollowingController::class, 'store'])->name('following.store');
 });
