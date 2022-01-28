@@ -6,9 +6,9 @@
     <form action="{{route('following.store', $user)}}" method="POST">
         @csrf
         @if(Auth::user()->follows()->where('following_user_id', $user->id)->first())
-        <x-button>- unfollow</x-button>
+            <x-button>- unfollow</x-button>
         @else
-        <x-button>+ follow</x-button>
+            <x-button>+ follow</x-button>
         @endif
     </form>
     @endif
